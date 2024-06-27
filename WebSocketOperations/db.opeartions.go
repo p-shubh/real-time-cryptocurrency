@@ -19,7 +19,6 @@ func GetWebSocketDbOperation() models.RateStats {
 	endTime := time.Now()
 	startTime := endTime.Add(-10 * time.Minute)
 
-	// var data []models.Payload
 	var data models.RateStats
 	result := db.DB.Raw("SELECT MAX(rate) AS max_rate, MIN(rate) AS min_rate, SUM(volume) AS sum_volume FROM crypto_histories where timestamp >= '" + startTime.Format("2006-01-02 15:04:05") + "' AND timestamp <= '" + endTime.Format("2006-01-02 15:04:05") + "'").Debug().Scan(&data)
 	if result.Error != nil {
@@ -63,7 +62,6 @@ func GetCryptoHistoryCalculation() []models.RateStats {
 	var crypto_histories []models.CryptoHistory
 	var rateStats []models.RateStats
 
-	// Assuming db.DB is your initialized database connection
 	result := db.DB.Raw("SELECT * FROM crypto_histories ORDER BY timestamp ASC").Scan(&crypto_histories)
 	if result.Error != nil {
 		fmt.Println("Error retrieving crypto histories:", result.Error)
@@ -112,12 +110,6 @@ func GetCryptoHistoryCalculation() []models.RateStats {
 
 		// Check if current record is within the current window
 		for recordTime.After(endTime) {
-			// Calculate average rate for the current window
-			var avgRate float64
-			if count > 0 {
-				avgRate = sumVolume / float64(count)
-			}
-			fmt.Sprint(avgRate)
 
 			// Append statistics for the completed window
 			rateStats = append(rateStats, models.RateStats{
@@ -154,17 +146,12 @@ func GetCryptoHistoryCalculation() []models.RateStats {
 		count++
 	}
 
-	// Append statistics for the last window if there are remaining records
-	var avgRate float64
-	if count > 0 {
-		avgRate = sumVolume / float64(count)
-	}
+	
 	rateStats = append(rateStats, models.RateStats{
 		MaxRate:   maxRate,
 		MinRate:   minRate,
 		SumVolume: sumVolume,
 	})
-	fmt.Sprint(avgRate)
 
 	return rateStats
 }

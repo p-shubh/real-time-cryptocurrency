@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"trade/pkg/models"
@@ -36,12 +37,12 @@ func Init() {
 }
 
 func Connect() *gorm.DB {
-	// dsn := "host=satao.db.elephantsql.com user=atvcirnc password=fFa7mq_RGHrfMQ1tvfsNanUhjF96sbCk dbname=atvcirnc port=5432 sslmode=disable"
 	dsn := "host=" + os.Getenv("POSTGRES_HOST") + " port=" + os.Getenv("POSTGRES_PORT") + " user=" + os.Getenv("POSTGRES_USER") + " password=" + os.Getenv("POSTGRES_PASSWORD") + " dbname=" + os.Getenv("POSTGRES_DB") + " sslmode=" + os.Getenv("POSTGRES_SSL_MODE") + ""
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
+		fmt.Println("dns : ", dsn)
 		log.Printf("failed to connect to database: %v", err)
 	}
 

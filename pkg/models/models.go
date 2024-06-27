@@ -7,7 +7,6 @@ type CryptoHistory struct {
 	Timestamp string  `json:"timestamp" gorm:"column:timestamp;type:timestamp"`
 }
 
-// RateStats to hold the result of the query
 type RateStats struct {
 	MaxRate   float64 `json:"max_Rate"`
 	MinRate   float64 `json:"min_rate"`

@@ -10,7 +10,6 @@ import (
 func Router() {
 	r := gin.Default()
 	gin.SetMode(gin.DebugMode)
-	// set gin method
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",

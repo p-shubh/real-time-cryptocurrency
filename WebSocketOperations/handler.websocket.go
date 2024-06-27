@@ -51,7 +51,6 @@ func CoinMarketHistory(c *gin.Context) {
 		return
 	}
 	var currentTime time.Time
-	// currentTime = time.Now()
 
 	messageChan := make(chan []byte)
 
@@ -76,8 +75,7 @@ func CoinMarketHistory(c *gin.Context) {
 		}
 
 		for _, data := range datas {
-			fmt.Println("data.Timestamp : ", data.Timestamp)
-			// Parse the timestamp
+
 			timestamp, err := time.Parse("2006-01-02 15:04:05", data.Timestamp)
 			if err != nil {
 				log.Println("Error parsing timestamp:", err)
@@ -177,7 +175,7 @@ func WebSocketForGetCoinMarketHistory(c *gin.Context) {
 
 	for {
 
-		// Example: Send data every 5 seconds
+		// Example: Send data every 1 seconds
 		ticker := time.NewTicker(1 * time.Second)
 		count := 0
 		var (
@@ -209,7 +207,6 @@ func WebSocketForGetCoinMarketHistory(c *gin.Context) {
 
 				startTime := Timestamp
 				endTime := startTime.Add(+time.Minute * 5)
-				// Get data (e.g., from Redis)
 				data := GetWebSocketDbOperationForEvery5min(startTime, endTime)
 
 				reqBodyBytes := new(bytes.Buffer)
