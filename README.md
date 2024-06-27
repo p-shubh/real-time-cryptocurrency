@@ -1,4 +1,6 @@
 
+Sure, here is the updated README with the additional route for a health check endpoint:
+
 # Cryptocurrency Data Retrieval and API
 
 This project involves developing a Go application using the Gin or Fiber framework to retrieve real-time cryptocurrency data for BTC, USDT, and ETH from a WebSocket, store this data in a PostgreSQL database, and provide API endpoints for retrieving top volumes, losers, and gainers for the last 24 hours at 5-minute intervals.
@@ -115,6 +117,13 @@ func WebSocketRouting(c *gin.Engine) {
 
     // REST API
     c.GET("/ApiGetCoinMarketHistory", webSocketOperations.ApiForGetCoinMarketHistory)
+
+    // Health Check
+    c.GET("/ping", func(c *gin.Context) {
+        c.JSON(200, gin.H{
+            "message": "pong",
+        })
+    })
 }
 ```
 
@@ -139,6 +148,11 @@ func WebSocketRouting(c *gin.Engine) {
 
   ```
   GET /ApiGetCoinMarketHistory
+  ```
+- **Health Check:**
+
+  ```
+  GET /ping
   ```
 
 ## Conclusion
